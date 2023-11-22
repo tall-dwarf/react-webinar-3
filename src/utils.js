@@ -26,3 +26,12 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+/**
+ * Получение уникального кода в рамках одной сессии
+ * @param list {Array} Список элементов с переменной code
+ * @returns {Number}
+ */
+export const getUniqueCode = (list) => {
+  return Math.max(...list.map(listItem => listItem.code)) + 1
+}
