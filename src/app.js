@@ -1,6 +1,6 @@
 import React from 'react';
-import {createElement} from './utils.js';
 import './styles.css';
+import { pluralize } from "numeralize-ru";
 
 /**
  * Приложение
@@ -10,6 +10,15 @@ import './styles.css';
 function App({store}) {
 
   const list = store.getState().list;
+
+  /**
+   * Получение строки количества кликов 
+   * @param count {Number} Количество кликов
+   * @returns {String}
+  */
+  const getItemSelectCountStr = (count) => {
+    return count > 0 ? ` | Выделяли ${count} ${pluralize(count, 'раз', 'раза', 'раз')}` : ""
+  }
 
   return (
     <div className='App'>
@@ -28,7 +37,7 @@ function App({store}) {
                 <div className='Item-code'>{item.code}</div>
                 <div className='Item-title'>
                 {item.title}
-                {item.selectCount > 0 ? ` | Выделяли ${item.selectCount}` : ""}
+                {getItemSelectCountStr(item.selectCount)}
                 </div>
                 <div className='Item-actions'>
                   <button onClick={() => store.deleteItem(item.code)}>
