@@ -1,4 +1,4 @@
-import {generateCode} from "./utils";
+import { generateCode } from "./utils";
 
 /**
  * Хранилище состояния приложения
@@ -46,7 +46,7 @@ class Store {
   addItem() {
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: generateCode(), title: 'Новая запись'}]
+      list: [...this.state.list, { code: generateCode(), title: 'Новая запись' }]
     })
   };
 
@@ -79,9 +79,52 @@ class Store {
           };
         }
         // Сброс выделения если выделена
-        return item.selected ? {...item, selected: false} : item;
+        return item.selected ? { ...item, selected: false } : item;
       })
     })
+  };
+
+  /**
+   * Добавление товара в корзину
+   * @param code
+  */
+  addToCard(code) {
+    const searchElement = this.state.card.find(cardItem => cardItem.code === code)
+    let newCardState = null
+
+    if (Boolean(searchElement)) {
+      newCardState = this.state.card.map(itm => itm.code === code ? { ...itm, cnt: itm.cnt + 1 } : itm)
+    } else {
+      const productItem = this.state.list.find(cardItem => cardItem.code === code)
+      newCardState = [...this.state.card, { ...productItem, cnt: 1 }]
+    }
+
+    this.setState({
+      ...this.state,
+      card: newCardState
+    })
+  }
+
+  /**
+   * Удаление товара из корзины
+   * @param code
+  */
+  deleteOnCard(code){
+    this.setState({
+      ...this.state,
+      card: this.state.card.filter(cItem => cItem.code !== code)
+      
+    })
+    // Удаление 1 cnt
+    // .map(cItem => cItem.code === code ? {...cItem, cnt: cItem.cnt - 1} : cItem)
+    //   .filter(cItem => cItem.cnt)
+  }
+
+  /**
+   * Получение полной цены всех товаров в корзине
+  */
+  getFullPrice(){
+    return this.state.card.reduce((acc, item) => acc + (item.cnt * item.price),0)
   }
 }
 

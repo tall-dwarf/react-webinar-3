@@ -1,0 +1,26 @@
+.Card-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px dashed #ccc;
+}
+
+.Card-item:first-child{
+    border-top: 1px dashed #ccc;
+}
+
+.Card-item__info{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.Card-item__title{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.Card-item__main{
+    display: flex;
+    gap: 24px;
+}

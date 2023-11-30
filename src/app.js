@@ -1,40 +1,50 @@
-import React, {useCallback} from 'react';
+import React, { useCallback, useState } from 'react';
 import List from "./components/list";
 import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
-
+import Modal from './components/modal';
+import Card from "./components/card"
 /**
  * Приложение
  * @param store {Store} Хранилище состояния приложения
  * @returns {React.ReactElement}
  */
-function App({store}) {
-
+function App({ store }) {
+  const [modalIsOpen, setModalIsOpen] = useState(false)
   const list = store.getState().list;
 
   const callbacks = {
-    onDeleteItem: useCallback((code) => {
-      store.deleteItem(code);
+    onAddToCard: useCallback((code) => {
+      store.addToCard(code)
     }, [store]),
 
-    onSelectItem: useCallback((code) => {
-      store.selectItem(code);
+    onDeleteInCard: useCallback((code) => {
+      store.deleteOnCard(code)
     }, [store]),
-
-    onAddItem: useCallback(() => {
-      store.addItem();
-    }, [store])
   }
 
   return (
-    <PageLayout>
-      <Head title='Приложение на чистом JS'/>
-      <Controls onAdd={callbacks.onAddItem}/>
-      <List list={list}
-            onDeleteItem={callbacks.onDeleteItem}
-            onSelectItem={callbacks.onSelectItem}/>
-    </PageLayout>
+    <React.Fragment>
+      <Modal
+        onClose={() => setModalIsOpen(false)}
+        isOpen={modalIsOpen}
+        title="Корзина">
+        <Card
+          onDelete={callbacks.onDeleteInCard}
+          fullPrice={store.getFullPrice()}
+          cardList={store.getState().card} />
+      </Modal>
+      <PageLayout>
+        <Head title='Приложение на чистом JS' />
+        <Controls
+          cnt={store.getState().card.length}
+          fullPrice={store.getFullPrice()}
+          onOpen={() => setModalIsOpen(true)} />
+        <List list={list}
+          onAction={callbacks.onAddToCard} />
+      </PageLayout>
+    </React.Fragment>
   );
 }
 

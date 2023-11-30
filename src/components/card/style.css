@@ -1,0 +1,16 @@
+
+.Card-list{
+    padding: 0px 17px;
+}
+
+.Card-result{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 0px 35px;
+}
+
+.Card-result__none{
+    opacity: 0;
+}

@@ -1,0 +1,32 @@
+.Modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.Modal--open{
+    display: flex;
+}
+
+.Modal-inner{
+    max-width: 960px;
+    width: 100%;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.Modal-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F5F5F5;
+    padding: 20px;
+}
